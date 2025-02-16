@@ -10,25 +10,25 @@ import (
 )
 
 func abs(x int) int {
-  if x < 0 {
-    return -x
-  }
+	if x < 0 {
+		return -x
+	}
 
-  return x
+	return x
 }
 
 func sortSlice(slice []int) {
 	for i := 0; i < len(slice); i++ {
 		for j := 0; j < len(slice)-1-i; j++ {
 			if slice[j] > slice[j+1] {
-        slice[j], slice[j+1] = slice[j+1], slice[j]
+				slice[j], slice[j+1] = slice[j+1], slice[j]
 			}
 		}
 	}
 }
 
-func main() {
-	file, err := os.Open("input")
+func GetSlicesFromInput(input string) ([]int, []int) {
+	file, err := os.Open("./input")
 
 	if err != nil {
 		log.Fatal(err)
@@ -52,15 +52,44 @@ func main() {
 		rightSlice = append(rightSlice, rightInt)
 	}
 
-  sortSlice(leftSlice)
-  sortSlice(rightSlice)
+	return leftSlice, rightSlice
+}
 
-  var sum int
+func main() {
+	leftSlice, rightSlice := GetSlicesFromInput("input")
 
-  for i := 0; i < len(leftSlice); i++ {
-    distance := abs(leftSlice[i] - rightSlice[i])
-    sum += distance
-  }
+  resultForSecondPart := SolutionSecondPart(leftSlice, rightSlice)
 
-  fmt.Println(sum)
+  fmt.Println(resultForSecondPart)
+
+	sortSlice(leftSlice)
+	sortSlice(rightSlice)
+
+	var sum int
+
+	for i := 0; i < len(leftSlice); i++ {
+		distance := abs(leftSlice[i] - rightSlice[i])
+		sum += distance
+	}
+
+	fmt.Println(sum)
+}
+
+func SolutionSecondPart(firstSlice, secondSlice []int) int {
+	var result int
+
+	storage := make(map[int]int)
+
+	for _, number := range firstSlice {
+		for j := 0; j < len(secondSlice); j++ {
+			if number == secondSlice[j] {
+				storage[number] += 1
+			}
+		}
+
+		result += number * storage[number]
+		storage[number] = 0
+	}
+
+	return result
 }
