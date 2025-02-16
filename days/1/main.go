@@ -58,9 +58,9 @@ func GetSlicesFromInput(input string) ([]int, []int) {
 func main() {
 	leftSlice, rightSlice := GetSlicesFromInput("input")
 
-  resultForSecondPart := SolutionSecondPart(leftSlice, rightSlice)
+	resultForSecondPart := SolutionSecondPart(leftSlice, rightSlice)
 
-  fmt.Println(resultForSecondPart)
+	fmt.Println(resultForSecondPart)
 
 	sortSlice(leftSlice)
 	sortSlice(rightSlice)
